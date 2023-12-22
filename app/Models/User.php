@@ -52,4 +52,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_id');
+    }
+
+    public function isOwner(int $user_id, int $group_id)
+    {
+        return Group::where('id', $group_id)
+            ->where('user_id', $user_id)
+            ->exists();
+    }
 }

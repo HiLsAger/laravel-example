@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Group\GroupController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\UserController;
@@ -28,5 +29,6 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-
 Route::get('/profile/{id}', [ProfileController::class, 'index'])->name('profile');
+
+Route::get('/group', [GroupController::class, 'index'])->name('group');
