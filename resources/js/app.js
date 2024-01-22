@@ -4,8 +4,8 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import './bootstrap';
-import { createApp } from 'vue';
+import "./bootstrap";
+import { createApp } from "vue";
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,10 +13,26 @@ import { createApp } from 'vue';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp({});
+const app = createApp({
+    data() {
+        return { ...groupData };
+    },
+    // methods: { ...groupMethods },
+});
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+import ExampleComponent from "./components/ExampleComponent.vue";
+import GroupComponent from "./components/group/GroupComponent.vue";
+import NotificationComponent from "./components/notification/NotificationComponent.vue";
+import { groupData } from "./methods/group.js";
+import axios from "axios";
+
+axios.defaults.headers.common["X-XSRF-TOKEN"] = document.head.querySelector(
+    'meta[name="csrf-token"]'
+).content;
+
+app.component("example-component", ExampleComponent);
+app.component("group-component", GroupComponent);
+app.component("notification-component", NotificationComponent);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,4 +52,4 @@ app.component('example-component', ExampleComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+app.mount("#app");

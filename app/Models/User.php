@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_id');
+        return $this->belongsToMany(Group::class, 'users_groups');
     }
 
     public function isOwner(int $user_id, int $group_id)
@@ -63,5 +63,17 @@ class User extends Authenticatable
         return Group::where('id', $group_id)
             ->where('user_id', $user_id)
             ->exists();
+    }
+
+    public function hasPermisson(string $permission, int $group_id)
+    {
+        $user = auth()->user();
+
+        if (
+            $this->isOwner($user->id, $group_id) ||
+            $user->role->permissions->contains('name', $permission)
+        ) {
+            return true;
+        }
     }
 }
