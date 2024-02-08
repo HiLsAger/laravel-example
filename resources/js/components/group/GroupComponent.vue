@@ -74,7 +74,6 @@ export default {
         },
         async loadData() {
             try {
-                console.log("get groups");
                 const response = await axios.get("/group/groups/get");
                 return response.data.json;
             } catch (error) {

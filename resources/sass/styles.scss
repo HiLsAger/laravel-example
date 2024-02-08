@@ -1,0 +1,9 @@
+.modal  {
+    &.show {
+        display: block;
+
+        .b-overlay {
+            z-index: -1 !important;
+        }
+    }
+}
