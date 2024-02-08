@@ -15,4 +15,6 @@ class UsersGroups extends Model
     ];
 
     public $timestamps = false;
+
+    
 }

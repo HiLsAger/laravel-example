@@ -30,6 +30,7 @@ class GroupController extends Controller
                 'members:id,name',
                 'owner:id,name'
             ])->get();
+
             $groups->each(function ($group) {
                 $group->isOwner = $group->owner->id === auth()->id();
                 $group->members->each(function ($member) use ($group) {
@@ -51,13 +52,25 @@ class GroupController extends Controller
             'user_id' => $user->id
         ]);
 
+        $userGroup = null;
         if ($group) {
             $userGroup = UsersGroups::create([
                 'group_id' => $group->id,
                 'user_id' => $user->id
             ]);
         }
-        return response()->json(['success' => true, 'message' => 'Group created successfully', 'group' => $group, 'userGroup' => $userGroup], 200);
+        if($userGroup){
+            $group->isOwner = $group->owner->id === auth()->id();
+            $group->members->each(function ($member) use ($group) {
+                $member->isOwner = $group->owner->id === $member->id;
+            });
+        }
+
+        return response()->json([
+            'success' => true, 
+            'message' => 'Group created successfully', 
+            'group' => $group, 
+        ]);
     }
 
     public function update()

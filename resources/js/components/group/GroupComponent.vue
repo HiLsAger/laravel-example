@@ -34,7 +34,6 @@ export default {
         };
     },
     mounted() {
-        console.log("Component mounted.");
         this.loadData().then((data) => {
             this.groups = data;
         });
@@ -64,8 +63,10 @@ export default {
                         "X-CSRF-TOKEN": csrfToken,
                     },
                 })
-                .then((data) => {
-                    console.log(data);
+                .then((response) => {
+                    if(response.data.success){
+                    this.groups.push(response.data.group)
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
